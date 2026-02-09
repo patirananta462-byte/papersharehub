@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Exam Categories - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<h2 class="title">📚 Exam Categories</h2>
+
+<div class="intro" style="text-align: center; margin-bottom: 30px;">
+    <p style="font-size: 16px; color: #666;">
+        Browse resources by category. Click any category to see all available exams and materials.
+    </p>
+</div>
+
+<div class="grid" style="width: 85%; margin: 30px auto;">
+    
+    {% for category in categories %}
+    <a href="/category/{{ category.name }}" style="text-decoration: none;">
+        <div class="box" style="position: relative; padding: 30px 25px;">
+            
+            <!-- Category Icon -->
+            <div style="font-size: 40px; margin-bottom: 10px;">
+                {% if category.name == 'UPSC' %}🏛️
+                {% elif category.name == 'NEET' %}🏥
+                {% elif category.name == 'JEE' %}⚙️
+                {% elif category.name == 'SSC CGL/CHSL' %}📋
+                {% elif category.name == 'Banking Exams' %}🏦
+                {% elif category.name == 'State PSC' %}🏢
+                {% elif category.name == 'Class 1-12' %}📖
+                {% elif category.name == 'University Entrance' %}🎓
+                {% elif category.name == 'PhD Entrance' %}🔬
+                {% else %}📚
+                {% endif %}
+            </div>
+            
+            <!-- Category Name -->
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">
+                {{ category.name }}
+            </div>
+            
+            <!-- Paper Count Badge -->
+            {% if category.count > 0 %}
+            <div style="background: #005ad4; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; display: inline-block;">
+                {{ category.count }} resource{{ 's' if category.count != 1 else '' }}
+            </div>
+            {% else %}
+            <div style="color: #999; font-size: 13px;">
+                No resources yet
+            </div>
+            {% endif %}
+            
+        </div>
+    </a>
+    {% endfor %}
+
+</div>
+
+<!-- Info Section -->
+<div class="intro" style="margin-top: 40px;">
+    <h3 style="text-align: center; margin-bottom: 20px;">How It Works</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+        
+        <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">1️⃣</div>
+            <h4 style="color: #005ad4; margin-bottom: 10px;">Select Category</h4>
+            <p style="color: #666; font-size: 14px;">Click on any category above to browse available exams</p>
+        </div>
+
+        <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">2️⃣</div>
+            <h4 style="color: #005ad4; margin-bottom: 10px;">Choose Exam</h4>
+            <p style="color: #666; font-size: 14px;">Find your specific exam (NEET 2024, JEE Mains, etc.)</p>
+        </div>
+
+        <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">3️⃣</div>
+            <h4 style="color: #005ad4; margin-bottom: 10px;">Access Resources</h4>
+            <p style="color: #666; font-size: 14px;">View, preview or download question papers, books, notes</p>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 25px; background: #e8f2ff; border-radius: 8px;">
+        <h4 style="color: #005ad4; margin-bottom: 10px;">📤 Have Resources to Share?</h4>
+        <p style="color: #666; margin-bottom: 15px;">Upload question papers, books, notes, or any study material to help students!</p>
+        <a href="/upload" class="btn">Upload Resources</a>
+    </div>
+</div>
+
+{% endblock %}

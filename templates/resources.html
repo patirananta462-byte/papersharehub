@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Resources Library - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<div style="background: linear-gradient(135deg, #005ad4 0%, #0047ab 100%); padding: 40px 20px; color: white; text-align: center;">
+    <h1 style="font-size: 36px; margin-bottom: 10px;">📚 Resources Library</h1>
+    <p style="font-size: 18px; opacity: 0.9;">Access Question Papers, Books, Notes, Research Papers & More</p>
+</div>
+
+<div class="intro" style="max-width: 1200px;">
+    
+    <!-- Resource Type Filters -->
+    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h3 style="text-align: center; margin-bottom: 20px; color: #005ad4;">Filter by Resource Type</h3>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+            <a href="/resources?type=all" class="btn {% if resource_type == 'all' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📚 All Resources ({{ resource_counts.values()|sum if resource_counts else 0 }})
+            </a>
+            <a href="/resources?type=Question Paper" class="btn {% if resource_type == 'Question Paper' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📄 Question Papers ({{ resource_counts.get('Question Paper', 0) }})
+            </a>
+            <a href="/resources?type=NCERT Book" class="btn {% if resource_type == 'NCERT Book' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📗 NCERT Books ({{ resource_counts.get('NCERT Book', 0) }})
+            </a>
+            <a href="/resources?type=Reference Book" class="btn {% if resource_type == 'Reference Book' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📘 Reference Books ({{ resource_counts.get('Reference Book', 0) }})
+            </a>
+            <a href="/resources?type=Study Notes" class="btn {% if resource_type == 'Study Notes' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📝 Study Notes ({{ resource_counts.get('Study Notes', 0) }})
+            </a>
+            <a href="/resources?type=Research Paper" class="btn {% if resource_type == 'Research Paper' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                🔬 Research Papers ({{ resource_counts.get('Research Paper', 0) }})
+            </a>
+            <a href="/resources?type=Sample Paper" class="btn {% if resource_type == 'Sample Paper' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📋 Sample Papers ({{ resource_counts.get('Sample Paper', 0) }})
+            </a>
+            <a href="/resources?type=Mock Test" class="btn {% if resource_type == 'Mock Test' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                ✍️ Mock Tests ({{ resource_counts.get('Mock Test', 0) }})
+            </a>
+            <a href="/resources?type=Syllabus" class="btn {% if resource_type == 'Syllabus' %}{% else %}btn-secondary{% endif %}" style="padding: 10px 20px;">
+                📊 Syllabus ({{ resource_counts.get('Syllabus', 0) }})
+            </a>
+        </div>
+    </div>
+
+    <!-- Upload Button -->
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="/upload" class="btn" style="padding: 12px 30px; font-size: 16px;">📤 Upload New Resource</a>
+    </div>
+
+    {% if resources %}
+        
+        <h2 style="text-align: center; color: #005ad4; margin-bottom: 30px;">
+            {% if resource_type == 'all' %}
+                All Resources ({{ resources|length }})
+            {% else %}
+                {{ resource_type }} ({{ resources|length }})
+            {% endif %}
+        </h2>
+
+        <!-- Resources Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+            {% for resource in resources %}
+            <div class="paper-card" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s;">
+                
+                <!-- Resource Type & Category -->
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; flex-wrap: wrap; gap: 8px;">
+                    <span style="background: #005ad4; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; font-weight: bold;">
+                        {{ resource.resource_type }}
+                    </span>
+                    <span style="background: #e8f2ff; color: #005ad4; padding: 6px 12px; border-radius: 5px; font-size: 12px; font-weight: bold;">
+                        {{ resource.category }}
+                    </span>
+                </div>
+
+                <!-- Exam Name -->
+                <h3 style="color: #333; font-size: 18px; margin-bottom: 10px;">
+                    <a href="/exam/{{ resource.category }}/{{ resource.exam_name }}" style="color: #005ad4; text-decoration: none;">
+                        {{ resource.exam_name }}
+                    </a>
+                </h3>
+
+                <!-- Filename -->
+                <p style="color: #666; font-size: 14px; margin-bottom: 10px;">
+                    📎 {{ resource.filename[:40] }}{% if resource.filename|length > 40 %}...{% endif %}
+                </p>
+
+                <!-- Year -->
+                {% if resource.year %}
+                <p style="color: #999; font-size: 13px; margin-bottom: 10px;">
+                    📅 Year: {{ resource.year }}
+                </p>
+                {% endif %}
+
+                <!-- Description -->
+                {% if resource.description %}
+                <p style="color: #666; font-size: 13px; margin-bottom: 15px; line-height: 1.5;">
+                    {{ resource.description[:80] }}{% if resource.description|length > 80 %}...{% endif %}
+                </p>
+                {% endif %}
+
+                <div style="font-size: 12px; color: #999; margin-bottom: 15px;">
+                    📅 Uploaded: {{ resource.upload_date[:10] }}
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <a href="/paper/{{ resource.id }}" class="btn" style="flex: 1; text-align: center; padding: 10px;">
+                        View
+                    </a>
+                    <a href="/view/{{ resource.filename }}" class="btn" style="flex: 1; text-align: center; padding: 10px;" target="_blank">
+                        Preview
+                    </a>
+                    <a href="/download/{{ resource.filename }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 10px;">
+                        Download
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <!-- No resources -->
+        <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 10px;">
+            <h3 style="color: #666; margin-bottom: 15px;">📭 No Resources Found</h3>
+            <p style="color: #999; margin-bottom: 20px;">
+                {% if resource_type == 'all' %}
+                    No resources have been uploaded yet. Be the first to contribute!
+                {% else %}
+                    No {{ resource_type }} resources available yet.
+                {% endif %}
+            </p>
+            <a href="/upload" class="btn">Upload First Resource</a>
+        </div>
+    {% endif %}
+
+</div>
+
+<style>
+.paper-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 90, 212, 0.2);
+}
+</style>
+
+{% endblock %}

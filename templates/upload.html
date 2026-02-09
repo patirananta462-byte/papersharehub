@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Upload Resource - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<h2 class="title">📤 Upload Resource</h2>
+
+<div class="upload-form">
+    <form method="POST" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label for="resource_type">Resource Type *</label>
+            <select id="resource_type" name="resource_type" required>
+                <option value="">-- Select Resource Type --</option>
+                <option value="Question Paper">Question Paper</option>
+                <option value="NCERT Book">NCERT Book</option>
+                <option value="Reference Book">Reference Book</option>
+                <option value="Study Notes">Study Notes</option>
+                <option value="Research Paper">Research Paper</option>
+                <option value="Sample Paper">Sample Paper</option>
+                <option value="Mock Test">Mock Test</option>
+                <option value="Syllabus">Syllabus</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="exam_name">Exam/Subject Name *</label>
+            <input type="text" id="exam_name" name="exam_name" 
+                   placeholder="e.g., NEET 2024, JEE Mains Physics, Class 10 Mathematics" required>
+            <small style="color: #666; display: block; margin-top: 5px;">
+                💡 Tip: Be specific! Papers with similar names will be grouped together.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" name="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="UPSC">UPSC</option>
+                <option value="NEET">NEET</option>
+                <option value="JEE">JEE</option>
+                <option value="SSC CGL/CHSL">SSC CGL/CHSL</option>
+                <option value="Banking Exams">Banking Exams</option>
+                <option value="State PSC">State PSC</option>
+                <option value="Class 1-12">Class 1-12</option>
+                <option value="University Entrance">University Entrance</option>
+                <option value="PhD Entrance">PhD Entrance</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="year">Year (Optional)</label>
+            <input type="text" id="year" name="year" 
+                   placeholder="e.g., 2024, 2023-24">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea id="description" name="description" rows="3" 
+                      placeholder="Add any additional details about this resource..."
+                      style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; font-family: inherit;"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="file">Upload File * (PDF, DOC, DOCX, PPT, PPTX, JPG, PNG, ZIP, RAR, TXT)</label>
+            <input type="file" id="file" name="file" 
+                   accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.zip,.rar,.txt" required>
+            <small style="color: #28a745; display: block; margin-top: 5px; font-weight: bold;">
+                ✨ No file size limit! Upload any size file.
+            </small>
+        </div>
+
+        <button type="submit" class="btn">📤 Upload Resource</button>
+        <a href="/papers" class="btn btn-secondary" style="margin-left: 10px;">Cancel</a>
+    </form>
+</div>
+
+<div class="intro">
+    <h3>📋 Upload Guidelines</h3>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li><strong>Choose correct resource type</strong> - This helps organize content</li>
+        <li><strong>Be specific with names</strong> - "NEET 2024 Biology" is better than just "Biology"</li>
+        <li><strong>Similar names group together</strong> - Papers with same exam name will be grouped</li>
+        <li><strong>Upload genuine resources</strong> - Help students with quality content</li>
+        <li><strong>No file size limits</strong> - Upload books, complete notes, anything!</li>
+        <li><strong>Multiple formats accepted</strong> - PDF, DOC, PPT, images, ZIP files</li>
+    </ul>
+    
+    <div style="background: #e8f2ff; padding: 15px; border-radius: 8px; margin-top: 20px;">
+        <h4 style="margin-bottom: 10px;">💡 Examples of Good Uploads:</h4>
+        <ul style="margin-left: 20px;">
+            <li><strong>Question Paper:</strong> "NEET 2024 Phase 1" in NEET category</li>
+            <li><strong>NCERT Book:</strong> "Class 12 Physics NCERT" in Class 1-12 category</li>
+            <li><strong>Notes:</strong> "Organic Chemistry Complete Notes" in JEE category</li>
+            <li><strong>Research Paper:</strong> "AI in Healthcare Research 2024" in PhD category</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

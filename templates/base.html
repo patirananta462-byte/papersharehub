@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}PaperShareHub - India's #1 Free Question Paper Archive{% endblock %}</title>
+    <meta name="description" content="Download free NEET, JEE, UPSC, SSC, Banking, Class 1-12, University entrance exam question papers. India's largest student-driven question paper sharing platform.">
+    <meta name="keywords" content="question papers, exam papers, NEET papers, JEE papers, UPSC papers, SSC papers, previous year papers, sample papers, India exam papers, free download">
+    <meta name="author" content="PaperShareHub">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:title" content="PaperShareHub - India's Question Paper Archive">
+    <meta property="og:description" content="Free NEET, JEE, UPSC, SSC exam question papers shared by students">
+    <meta property="og:image" content="https://yourdomain.com/static/images/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourdomain.com/">
+    <meta property="twitter:title" content="PaperShareHub - India's Question Paper Archive">
+    <meta property="twitter:description" content="Free NEET, JEE, UPSC, SSC exam question papers shared by students">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yourdomain.com{{ request.path }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Analytics (Optional - Add your tracking code) -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR-GA-ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR-GA-ID');
+    </script>
+    -->
+</head>
+
+<body>
+
+<header>
+    <div class="logo">📚 PaperShareHub</div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/categories">Categories</a>
+        <a href="/papers">Question Papers</a>
+        <a href="/upload">Upload</a>
+        <a href="/resources">Resources</a>
+    </nav>
+</header>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            
+            <!-- About Section -->
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="margin-bottom: 10px;">About PaperShareHub</h4>
+                <p style="font-size: 14px; opacity: 0.8;">
+                    India's largest free platform for students to share and download real exam question papers.
+                </p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div style="flex: 1; min-width: 200px;">
+                <h4 style="margin-bottom: 10px;">Quick Links</h4>
+                <ul style="list-style: none; padding: 0; font-size: 14px;">
+                    <li style="margin: 5px 0;"><a href="/" style="color: white; opacity: 0.8;">Home</a></li>
+                    <li style="margin: 5px 0;"><a href="/papers" style="color: white; opacity: 0.8;">Browse Papers</a></li>
+                    <li style="margin: 5px 0;"><a href="/upload" style="color: white; opacity: 0.8;">Upload Paper</a></li>
+                    <li style="margin: 5px 0;"><a href="/categories" style="color: white; opacity: 0.8;">Categories</a></li>
+                </ul>
+            </div>
+            
+            <!-- Popular Categories -->
+            <div style="flex: 1; min-width: 200px;">
+                <h4 style="margin-bottom: 10px;">Popular Categories</h4>
+                <ul style="list-style: none; padding: 0; font-size: 14px;">
+                    <li style="margin: 5px 0;"><a href="/papers?category=NEET" style="color: white; opacity: 0.8;">NEET Papers</a></li>
+                    <li style="margin: 5px 0;"><a href="/papers?category=JEE" style="color: white; opacity: 0.8;">JEE Papers</a></li>
+                    <li style="margin: 5px 0;"><a href="/papers?category=UPSC" style="color: white; opacity: 0.8;">UPSC Papers</a></li>
+                    <li style="margin: 5px 0;"><a href="/papers?category=Class 1-12" style="color: white; opacity: 0.8;">Class 1-12</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <hr style="margin: 20px 0; opacity: 0.3;">
+        
+        <p style="text-align: center; font-size: 14px;">
+            © 2026 PaperShareHub.com — All Rights Reserved | Empowering Students Across India
+        </p>
+        <p style="text-align: center; font-size: 12px; opacity: 0.7; margin-top: 10px;">
+            <a href="/sitemap.xml" style="color: white; opacity: 0.7;">Sitemap</a> | 
+            <a href="/robots.txt" style="color: white; opacity: 0.7;">Robots.txt</a>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

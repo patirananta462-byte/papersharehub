@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}{{ category }} Papers & Resources - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<div style="background: linear-gradient(135deg, #005ad4 0%, #0047ab 100%); padding: 40px 20px; color: white; text-align: center;">
+    <h1 style="font-size: 36px; margin-bottom: 10px;">📚 {{ category }}</h1>
+    <p style="font-size: 18px; opacity: 0.9;">
+        {{ grouped_papers|length }} exams available | 
+        {{ exams|length }} unique exams
+    </p>
+</div>
+
+<div class="intro" style="max-width: 1200px;">
+    
+    <!-- Breadcrumb -->
+    <div style="margin-bottom: 20px; color: #666; font-size: 14px;">
+        <a href="/" style="color: #005ad4;">Home</a> » 
+        <a href="/categories" style="color: #005ad4;">Categories</a> » 
+        {{ category }}
+    </div>
+
+    {% if grouped_papers %}
+        
+        <!-- Upload Button -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <a href="/upload" class="btn">📤 Upload New Resource</a>
+        </div>
+
+        <!-- List all exams -->
+        {% for exam_name, papers in grouped_papers.items() %}
+        <div class="exam-group" style="background: white; padding: 25px; margin-bottom: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="color: #005ad4; margin: 0;">{{ exam_name }}</h2>
+                <span style="background: #e8f2ff; color: #005ad4; padding: 8px 15px; border-radius: 20px; font-weight: bold;">
+                    {{ papers|length }} file(s)
+                </span>
+            </div>
+
+            <!-- Show all files for this exam -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
+                {% for paper in papers[:6] %}
+                <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                    <div style="display: flex; align-items: start; gap: 10px;">
+                        <!-- File icon based on resource type -->
+                        <div style="font-size: 24px;">
+                            {% if paper.resource_type == 'Question Paper' %}📄
+                            {% elif paper.resource_type == 'NCERT Book' %}📗
+                            {% elif paper.resource_type == 'Reference Book' %}📘
+                            {% elif paper.resource_type == 'Study Notes' %}📝
+                            {% elif paper.resource_type == 'Research Paper' %}🔬
+                            {% else %}📎
+                            {% endif %}
+                        </div>
+                        
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-weight: 600; color: #333; margin-bottom: 5px; font-size: 14px;">
+                                {{ paper.resource_type }}
+                            </div>
+                            <div style="font-size: 13px; color: #666; margin-bottom: 8px;">
+                                {{ paper.filename[:30] }}{% if paper.filename|length > 30 %}...{% endif %}
+                            </div>
+                            {% if paper.year %}
+                            <div style="font-size: 12px; color: #999; margin-bottom: 8px;">
+                                📅 {{ paper.year }}
+                            </div>
+                            {% endif %}
+                            
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <a href="/paper/{{ paper.id }}" style="font-size: 12px; color: #005ad4; text-decoration: none; font-weight: 500;">View</a>
+                                <a href="/download/{{ paper.filename }}" style="font-size: 12px; color: #28a745; text-decoration: none; font-weight: 500;">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- View All button if more than 6 files -->
+            {% if papers|length > 6 %}
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/exam/{{ category }}/{{ exam_name }}" class="btn btn-secondary" style="padding: 10px 20px;">
+                    View All {{ papers|length }} Files for {{ exam_name }}
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <!-- No papers -->
+        <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 10px;">
+            <h3 style="color: #666; margin-bottom: 15px;">📭 No Resources Yet</h3>
+            <p style="color: #999; margin-bottom: 20px;">
+                Be the first to upload resources for {{ category }}!
+            </p>
+            <a href="/upload" class="btn">Upload First Resource</a>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

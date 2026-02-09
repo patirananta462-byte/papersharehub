@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Question Papers - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<h2 class="title">Question Papers Archive</h2>
+
+<div class="paper-list">
+    
+    <!-- Search Bar -->
+    <div style="text-align: center; margin-bottom: 30px;">
+        <form method="GET" action="/papers" style="display: inline-block; width: 100%; max-width: 600px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" name="search" placeholder="Search for exam papers (e.g., NEET 2024, JEE Mains...)" 
+                       value="{{ search_query or '' }}"
+                       style="flex: 1; padding: 12px; border: 2px solid #005ad4; border-radius: 6px; font-size: 15px;">
+                <button type="submit" class="btn">Search</button>
+            </div>
+        </form>
+        
+        <div style="margin-top: 15px;">
+            <a href="/papers" class="btn btn-secondary" style="padding: 8px 15px; font-size: 14px;">Clear Search</a>
+            <a href="/upload" class="btn" style="padding: 8px 15px; font-size: 14px; margin-left: 10px;">Upload New Paper</a>
+        </div>
+    </div>
+
+    {% if search_query %}
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">
+            Showing results for: <strong>"{{ search_query }}"</strong>
+        </p>
+    {% endif %}
+
+    {% if papers %}
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">
+            Found {{ papers|length }} paper(s)
+        </p>
+
+        {% for paper in papers %}
+        <div class="paper-card">
+            <h3>{{ paper.exam_name }}</h3>
+            
+            <div class="metadata">
+                <span>📂 {{ paper.category }}</span>
+                <span>📄 {{ paper.filename }}</span>
+                {% if paper.upload_date %}
+                <span>📅 {{ paper.upload_date[:10] }}</span>
+                {% endif %}
+            </div>
+
+            <p style="margin-top: 15px;">
+                <a href="/paper/{{ paper.id }}" class="btn" style="margin-right: 10px;">View Paper</a>
+                <a href="/view/{{ paper.filename }}" class="btn" style="margin-right: 10px;" target="_blank">Preview File</a>
+                <a href="/download/{{ paper.filename }}" class="btn btn-secondary">Download</a>
+            </p>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 10px;">
+            {% if search_query %}
+                <h3 style="color: #666; margin-bottom: 15px;">🔍 No Results Found</h3>
+                <p style="color: #999; margin-bottom: 20px;">
+                    No papers found for "{{ search_query }}". Try different keywords or browse all papers.
+                </p>
+                <a href="/papers" class="btn">View All Papers</a>
+            {% else %}
+                <h3 style="color: #666; margin-bottom: 15px;">📭 No Papers Yet</h3>
+                <p style="color: #999; margin-bottom: 20px;">Be the first to contribute! Upload a question paper to help students.</p>
+                <a href="/upload" class="btn">Upload First Paper</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}PaperShareHub - India's #1 Question Paper Archive{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>🇮🇳 India's #1 Community-Driven Question Paper Archive</h1>
+    <p>Your real exam papers, shared by real students.</p>
+    <div style="margin-top: 20px;">
+        <a href="/papers" class="btn" style="margin-right: 10px;">Browse Papers</a>
+        <a href="/upload" class="btn btn-secondary">Upload Paper</a>
+    </div>
+</section>
+
+<section class="intro">
+    <h2>Welcome to PaperShareHub</h2>
+
+    <p>
+        PaperShareHub is India's largest free platform where students can upload and download 
+        <strong>REAL exam question papers</strong>. Whether it's NEET, JEE, UPSC, SSC, Class 1-12, Master's entrance, 
+        PhD entrance, or state-level examinations — everything is available here.
+    </p>
+
+    <p>
+        The power of this platform comes from <strong>students themselves</strong>. If you attended an exam and have 
+        the question paper, simply upload it here. Another student preparing for that exam can now 
+        download it and benefit from it.
+    </p>
+
+    <h3 style="margin-top: 25px; color: #005ad4;">Why PaperShareHub?</h3>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li>✅ 100% Free - No hidden charges</li>
+        <li>✅ Real Papers - Uploaded by students who appeared in exams</li>
+        <li>✅ All Exams - From Class 1 to PhD entrance</li>
+        <li>✅ Community Driven - Help others by sharing your papers</li>
+        <li>✅ Easy Access - Download instantly, no registration required</li>
+    </ul>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/categories" class="btn">Explore Categories</a>
+    </div>
+</section>
+
+{% endblock %}

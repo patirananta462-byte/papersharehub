@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}{{ exam_name }} - {{ category }} - PaperShareHub{% endblock %}
+
+{% block content %}
+
+<div style="background: linear-gradient(135deg, #005ad4 0%, #0047ab 100%); padding: 40px 20px; color: white; text-align: center;">
+    <h1 style="font-size: 36px; margin-bottom: 10px;">{{ exam_name }}</h1>
+    <p style="font-size: 18px; opacity: 0.9;">{{ category }} | {{ papers|length }} resources available</p>
+</div>
+
+<div class="intro" style="max-width: 1200px;">
+    
+    <!-- Breadcrumb -->
+    <div style="margin-bottom: 20px; color: #666; font-size: 14px;">
+        <a href="/" style="color: #005ad4;">Home</a> » 
+        <a href="/categories" style="color: #005ad4;">Categories</a> » 
+        <a href="/category/{{ category }}" style="color: #005ad4;">{{ category }}</a> »
+        {{ exam_name }}
+    </div>
+
+    <!-- Upload Button -->
+    <div style="text-align: center; margin-bottom: 30px;">
+        <a href="/upload" class="btn">📤 Upload More Resources</a>
+        <a href="/category/{{ category }}" class="btn btn-secondary" style="margin-left: 10px;">← Back to {{ category }}</a>
+    </div>
+
+    {% if papers %}
+        
+        <!-- All files for this exam -->
+        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 15px rgba(0,0,0,0.1);">
+            <h2 style="color: #005ad4; margin-bottom: 20px; text-align: center;">📚 All Resources</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+                {% for paper in papers %}
+                <div class="paper-card" style="border: 2px solid #e0e0e0; padding: 20px; border-radius: 10px; transition: all 0.3s;">
+                    
+                    <!-- Resource Type Badge -->
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                        <span style="background: #005ad4; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; font-weight: bold;">
+                            {{ paper.resource_type }}
+                        </span>
+                        {% if paper.year %}
+                        <span style="background: #f0f0f0; color: #666; padding: 6px 12px; border-radius: 5px; font-size: 12px;">
+                            {{ paper.year }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- File Info -->
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 10px;">
+                        {{ paper.filename }}
+                    </h3>
+
+                    {% if paper.description %}
+                    <p style="color: #666; font-size: 14px; margin-bottom: 15px; line-height: 1.4;">
+                        {{ paper.description[:100] }}{% if paper.description|length > 100 %}...{% endif %}
+                    </p>
+                    {% endif %}
+
+                    <div style="font-size: 12px; color: #999; margin-bottom: 15px;">
+                        📅 Uploaded: {{ paper.upload_date[:10] }}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="/paper/{{ paper.id }}" class="btn" style="flex: 1; text-align: center; padding: 10px 15px;">
+                            👁️ View
+                        </a>
+                        <a href="/view/{{ paper.filename }}" class="btn" style="flex: 1; text-align: center; padding: 10px 15px;" target="_blank">
+                            📖 Preview
+                        </a>
+                        <a href="/download/{{ paper.filename }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 10px 15px;">
+                            ⬇️ Download
+                        </a>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% else %}
+        <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 10px;">
+            <h3 style="color: #666; margin-bottom: 15px;">📭 No Resources Found</h3>
+            <p style="color: #999; margin-bottom: 20px;">No resources available for this exam yet.</p>
+            <a href="/upload" class="btn">Upload First Resource</a>
+        </div>
+    {% endif %}
+
+</div>
+
+<style>
+.paper-card:hover {
+    border-color: #005ad4;
+    box-shadow: 0 4px 15px rgba(0, 90, 212, 0.2);
+    transform: translateY(-2px);
+}
+</style>
+
+{% endblock %}

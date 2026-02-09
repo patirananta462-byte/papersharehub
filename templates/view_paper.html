@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}{{ paper.exam_name }} - {{ paper.category }} Question Paper | PaperShareHub{% endblock %}
+
+{% block content %}
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Download {{ paper.exam_name }} question paper from {{ paper.category }} category. Free exam papers shared by students on PaperShareHub.">
+<meta name="keywords" content="{{ paper.exam_name }}, {{ paper.category }}, question paper, exam paper, previous year paper, {{ paper.exam_name }} pdf">
+<meta property="og:title" content="{{ paper.exam_name }} - Question Paper">
+<meta property="og:description" content="Download {{ paper.exam_name }} question paper from {{ paper.category }} category on PaperShareHub">
+<meta property="og:type" content="article">
+
+<div class="intro" style="max-width: 900px;">
+    
+    <!-- Breadcrumb -->
+    <div style="margin-bottom: 20px; color: #666; font-size: 14px;">
+        <a href="/" style="color: #005ad4;">Home</a> » 
+        <a href="/papers" style="color: #005ad4;">Papers</a> » 
+        <a href="/papers?category={{ paper.category }}" style="color: #005ad4;">{{ paper.category }}</a> »
+        {{ paper.exam_name }}
+    </div>
+
+    <!-- Paper Title -->
+    <h1 style="color: #005ad4; margin-bottom: 10px;">{{ paper.exam_name }}</h1>
+    
+    <!-- Paper Info -->
+    <div class="metadata" style="margin-bottom: 30px;">
+        <span>📂 Category: {{ paper.category }}</span>
+        <span>📄 File: {{ paper.filename }}</span>
+        {% if paper.upload_date %}
+        <span>📅 Uploaded: {{ paper.upload_date[:10] }}</span>
+        {% endif %}
+    </div>
+
+    <!-- File Preview Section -->
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin-bottom: 15px;">📖 Preview & Download</h3>
+        
+        {% set file_ext = paper.filename.rsplit('.', 1)[1].lower() %}
+        
+        {% if file_ext == 'pdf' %}
+            <!-- PDF Preview -->
+            <div style="border: 2px solid #ddd; border-radius: 8px; overflow: hidden; margin-bottom: 15px;">
+                <iframe src="/view/{{ paper.filename }}" 
+                        width="100%" 
+                        height="600px" 
+                        style="border: none;">
+                </iframe>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 14px;">
+                <em>PDF preview above. Having trouble viewing? <a href="/view/{{ paper.filename }}" target="_blank" style="color: #005ad4;">Open in new tab</a></em>
+            </p>
+        
+        {% elif file_ext in ['jpg', 'jpeg', 'png'] %}
+            <!-- Image Preview -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="/view/{{ paper.filename }}" 
+                     alt="{{ paper.exam_name }}"
+                     style="max-width: 100%; height: auto; border: 2px solid #ddd; border-radius: 8px;">
+            </div>
+        
+        {% else %}
+            <!-- DOC/DOCX - Cannot preview -->
+            <div style="text-align: center; padding: 40px; background: white; border-radius: 8px;">
+                <p style="font-size: 18px; color: #666;">📄 Document File</p>
+                <p style="color: #999; margin: 10px 0;">This file type cannot be previewed in browser</p>
+                <p style="color: #999;">Download to view the content</p>
+            </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/view/{{ paper.filename }}" class="btn" target="_blank" style="margin-right: 10px;">
+                Open in New Tab
+            </a>
+            <a href="/download/{{ paper.filename }}" class="btn btn-secondary">
+                Download File
+            </a>
+        </div>
+    </div>
+
+    <!-- Paper Description for SEO -->
+    <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #005ad4; margin-bottom: 20px;">
+        <h3 style="margin-bottom: 10px;">About This Paper</h3>
+        <p style="color: #666;">
+            This is the <strong>{{ paper.exam_name }}</strong> question paper from the <strong>{{ paper.category }}</strong> category. 
+            This paper was uploaded by a student who appeared in the exam and wanted to help other students preparing for 
+            similar exams. You can download this paper for free and use it for your exam preparation.
+        </p>
+    </div>
+
+    <!-- Related Papers -->
+    <div style="background: #e8f2ff; padding: 20px; border-radius: 8px;">
+        <h3 style="margin-bottom: 10px;">Looking for More Papers?</h3>
+        <p style="margin-bottom: 15px;">Browse more papers from the same category:</p>
+        <a href="/papers?category={{ paper.category }}" class="btn">
+            View All {{ paper.category }} Papers
+        </a>
+        <a href="/papers" class="btn btn-secondary" style="margin-left: 10px;">
+            Browse All Papers
+        </a>
+    </div>
+
+    <!-- Share Section -->
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: white; border-radius: 8px;">
+        <h4 style="margin-bottom: 10px;">Help Other Students!</h4>
+        <p style="color: #666; margin-bottom: 15px;">
+            If you have attended any exam and have the question paper, please upload it to help others.
+        </p>
+        <a href="/upload" class="btn">Upload Your Paper</a>
+    </div>
+
+</div>
+
+<!-- Structured Data for SEO (helps Google understand the content) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalResource",
+  "name": "{{ paper.exam_name }}",
+  "description": "{{ paper.exam_name }} question paper from {{ paper.category }} category",
+  "category": "{{ paper.category }}",
+  "educationalLevel": "Higher Education",
+  "learningResourceType": "Exam Paper",
+  "inLanguage": "en",
+  "provider": {
+    "@type": "Organization",
+    "name": "PaperShareHub"
+  },
+  "datePublished": "{{ paper.upload_date }}"
+}
+</script>
+
+{% endblock %}
